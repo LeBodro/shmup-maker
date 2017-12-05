@@ -2,15 +2,22 @@
 
 public class Ammo : MonoBehaviour
 {
+    [SerializeField] float damage;
+
     public void SetOwner(Team owner)
     {
-        
+        gameObject.layer = 3 + (int)owner;
     }
 
     void OnCollisionEnter(Collision coll)
     {
-        // collision should only happen on targetable item
-        // if collision matrix and layers are set properly.
-        // Attack life directly.
+        Life otherLife = coll.gameObject.GetComponent<Life>();
+
+        if (otherLife != null)
+        {
+            otherLife.Hurt(damage);
+        }
+
+        Destroy(gameObject);
     }
 }

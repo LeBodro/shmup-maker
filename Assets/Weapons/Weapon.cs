@@ -2,8 +2,9 @@
 
 public enum Team
 {
-    Federation,
-    Android
+    Friend = 8,
+    Enemy = 9,
+    Neutral = 10
 }
 
 public class Weapon : MonoBehaviour
@@ -12,6 +13,11 @@ public class Weapon : MonoBehaviour
     [SerializeField] float cooldown;
 
     Team owner;
+
+    void Start()
+    {
+        SetOwner((Team)gameObject.layer);
+    }
 
     public void Fire()
     {
@@ -22,5 +28,6 @@ public class Weapon : MonoBehaviour
     public void SetOwner(Team owner)
     {
         this.owner = owner;
+        gameObject.layer = (int)owner;
     }
 }
