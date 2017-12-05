@@ -13,6 +13,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] float cooldown;
 
     Team owner;
+    float secondsToNextShot;
 
     void Start()
     {
@@ -21,13 +22,22 @@ public class Weapon : MonoBehaviour
 
     public void Fire()
     {
-        var ammo = Instantiate<Ammo>(ammoPrefab, transform.position, transform.rotation);
-        ammo.SetOwner(owner);
+        if (secondsToNextShot <= 0)
+        {
+            var ammo = Instantiate<Ammo>(ammoPrefab, transform.position, transform.rotation);
+            ammo.SetOwner(owner);
+            secondsToNextShot = cooldown;
+        }
     }
 
     public void SetOwner(Team owner)
     {
         this.owner = owner;
         gameObject.layer = (int)owner;
+    }
+
+    void Update()
+    {
+        secondsToNextShot -= Time.deltaTime;
     }
 }
