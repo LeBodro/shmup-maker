@@ -35,5 +35,7 @@ public class Spaceship : MonoBehaviour
     {
         if (body.velocity.sqrMagnitude > sqrMaximumSpeed)
             body.velocity = body.velocity.normalized * maximumSpeed;
+
+        transform.eulerAngles = Vector3.down * body.velocity.x * 6 + Vector3.back * body.velocity.x;
     }
 }
