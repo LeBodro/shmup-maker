@@ -3,6 +3,7 @@
 public class Ammo : MonoBehaviour
 {
     [SerializeField] float damage;
+    [SerializeField] ParticleSystem explosionFx;
 
     public void SetOwner(Team owner)
     {
@@ -16,8 +17,14 @@ public class Ammo : MonoBehaviour
         if (otherLife != null)
         {
             otherLife.Hurt(damage);
+            Explode();
         }
 
         Destroy(gameObject);
+    }
+
+    void Explode()
+    {
+        Instantiate<ParticleSystem>(explosionFx, transform.position, Quaternion.identity);
     }
 }
