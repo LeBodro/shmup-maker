@@ -18,7 +18,7 @@ public class AIWave : MonoBehaviour
         secondsToNextSpawn -= Time.deltaTime;
         if (secondsToNextSpawn <= 0)
         {
-            var pilot = Instantiate<AutoPilot>(shipPrefab, course.GetSpawnPosition(), Quaternion.identity);
+            var pilot = Instantiate<AutoPilot>(shipPrefab, course.GetSpawnPosition(), Quaternion.Euler(0, 0, 180));
             foreach (var step in course.GetSteps())
                 pilot.QueueDestination(step);
             secondsToNextSpawn = spawnCooldown;
