@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(Spaceship))]
+[RequireComponent(typeof(Vehicle))]
 public class PlayerController : MonoBehaviour
 {
     const string HORIZONTAL = "{0}Horizontal";
@@ -10,11 +10,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] string controllerId = "P0";
     [SerializeField] Weapon[] weapons;
 
-    Spaceship spaceship;
+    Vehicle spaceship;
 
     void Start()
     {
-        spaceship = GetComponent<Spaceship>();
+        spaceship = GetComponent<Vehicle>();
     }
 
     void FixedUpdate()

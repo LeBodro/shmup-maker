@@ -25,7 +25,7 @@ public class Life : MonoBehaviour
     {
         current -= damage;
         if (current <= 0)
-            Die();
+            Kill();
     }
 
     public void Heal(float restoration)
@@ -33,7 +33,7 @@ public class Life : MonoBehaviour
         current = Mathf.Min(current + restoration, maximum);
     }
 
-    void Die()
+    public void Kill()
     {
         if (deathFxPrefab != null)
             Instantiate<ParticleSystem>(deathFxPrefab, transform.position, Quaternion.identity);

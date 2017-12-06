@@ -2,13 +2,13 @@
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(Life))]
-public class Spaceship : MonoBehaviour
+public class Vehicle : MonoBehaviour
 {
     [SerializeField] float maximumSpeed;
     [SerializeField] float thrusterStrength;
 
+    protected Life hull;
     Rigidbody body;
-    Life hull;
     float sqrMaximumSpeed;
 
     void Start()
@@ -36,13 +36,13 @@ public class Spaceship : MonoBehaviour
         body.AddForce(direction * thrusterStrength);
     }
 
-    public void FixedUpdate()
+    protected virtual void FixedUpdate()
     {
         if (body.velocity.sqrMagnitude > sqrMaximumSpeed)
             body.velocity = body.velocity.normalized * maximumSpeed;
 
         var baseAngle = transform.eulerAngles;
         baseAngle.y = 0;
-        transform.eulerAngles = baseAngle + new Vector3(0, -6, 0) * body.velocity.x;
+        transform.eulerAngles = baseAngle + new Vector3(0, -60f / maximumSpeed, 0) * body.velocity.x;
     }
 }

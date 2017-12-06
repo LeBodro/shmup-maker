@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 
-public class Ammo : MonoBehaviour
+public class Ammo : Vehicle
 {
     [SerializeField] float damage;
-    [SerializeField] ParticleSystem explosionFx;
 
     public void SetOwner(Team owner)
     {
@@ -17,14 +16,14 @@ public class Ammo : MonoBehaviour
         if (otherLife != null)
         {
             otherLife.Hurt(damage);
-            Explode();
+            hull.Kill();
         }
-
-        Destroy(gameObject);
     }
 
-    void Explode()
+    protected override void FixedUpdate()
     {
-        Instantiate<ParticleSystem>(explosionFx, transform.position, Quaternion.identity);
+        var angle = transform.eulerAngles.z * Mathf.Deg2Rad;
+        MoveTowardRelative(-Mathf.Sin(angle), Mathf.Cos(angle));
+        base.FixedUpdate();
     }
 }
