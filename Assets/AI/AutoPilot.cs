@@ -30,9 +30,13 @@ public class AutoPilot : MonoBehaviour
         if (destinations.Count > 0)
         {
             var currentDestination = destinations.Peek();
+
             ship.MoveToward(currentDestination);
             if (Vector3.Distance(transform.position, currentDestination) <= REACHED_THRESHOLD)
+            {
+                Debug.Log("Reached " + currentDestination);
                 destinations.Dequeue();
+            }
         }
     }
 }

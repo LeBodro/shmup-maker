@@ -27,7 +27,7 @@ public class Spaceship : MonoBehaviour
 
     public void MoveToward(Vector3 target)
     {
-        body.AddForce(target * thrusterStrength);
+        body.AddForce((target - body.position).normalized * thrusterStrength);
     }
 
     public void MoveTowardRelative(float x, float y)
