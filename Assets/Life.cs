@@ -4,6 +4,7 @@ using System;
 public class Life : MonoBehaviour
 {
     [SerializeField] float maximum;
+    [SerializeField] ParticleSystem deathFxPrefab;
 
     float current;
 
@@ -24,11 +25,18 @@ public class Life : MonoBehaviour
     {
         current -= damage;
         if (current <= 0)
-            _onDeath();
+            Die();
     }
 
     public void Heal(float restoration)
     {
         current = Mathf.Min(current + restoration, maximum);
+    }
+
+    void Die()
+    {
+        if (deathFxPrefab != null)
+            Instantiate<ParticleSystem>(deathFxPrefab, transform.position, Quaternion.identity);
+        _onDeath();
     }
 }
