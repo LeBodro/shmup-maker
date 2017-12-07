@@ -40,4 +40,27 @@ public class Weapon : MonoBehaviour
     {
         secondsToNextShot -= Time.deltaTime;
     }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(transform.position, 0.5f);
+        GizmoPlus.DrawArrowGizmo(transform.position, transform.eulerAngles.z * Mathf.Deg2Rad, 3);
+    }
+}
+
+public static class GizmoPlus
+{
+    public static void DrawArrowGizmo(Vector3 position, float angle, float length)
+    {
+        Vector3 tip = new Vector3(-Mathf.Sin(angle), Mathf.Cos(angle)) * length;
+        var pointAngle = angle + 0.75f * Mathf.PI;
+        Vector3 leftLine = new Vector3(-Mathf.Sin(pointAngle), Mathf.Cos(pointAngle)) * length * 0.4f;
+        pointAngle += Mathf.PI * 0.5f;
+        Vector3 rightLine = new Vector3(-Mathf.Sin(pointAngle), Mathf.Cos(pointAngle)) * length * 0.4f;
+
+        Gizmos.DrawRay(position, tip);
+        Gizmos.DrawRay(position + tip, leftLine);
+        Gizmos.DrawRay(position + tip, rightLine);
+    }
 }
