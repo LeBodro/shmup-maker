@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         spaceship = GetComponent<Spaceship>();
+        spaceship.SetTeam(Team.Friend);
     }
 
     void FixedUpdate()

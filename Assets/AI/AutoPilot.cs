@@ -1,17 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 
-[RequireComponent(typeof(Vehicle))]
+[RequireComponent(typeof(Spaceship))]
 public class AutoPilot : MonoBehaviour
 {
     const float REACHED_THRESHOLD = 1.5f;
 
-    Vehicle ship;
+    Spaceship ship;
     Queue<Vector3> destinations = new Queue<Vector3>();
 
     void Start()
     {
-        ship = GetComponent<Vehicle>();
+        ship = GetComponent<Spaceship>();
     }
 
     public void QueueDestination(Vector3 destination)
@@ -25,15 +25,20 @@ public class AutoPilot : MonoBehaviour
         QueueDestination(destination);
     }
 
-    public void FixedUpdate()
+    void FixedUpdate()
     {
         if (destinations.Count > 0)
         {
             var currentDestination = destinations.Peek();
 
-            ship.MoveToward(currentDestination);
+            ship.Engine.MoveToward(currentDestination);
             if (Vector3.Distance(transform.position, currentDestination) <= REACHED_THRESHOLD)
                 destinations.Dequeue();
         }
+    }
+
+    void Update()
+    {
+        ship.FirePrimaryWeapon();
     }
 }

@@ -15,9 +15,19 @@ public class Spaceship : MonoBehaviour
         engine = GetComponent<Vehicle>();
     }
 
+    public void SetTeam(Team team)
+    {
+        gameObject.layer = (int)team;
+        if (primaryWeapon != null)
+            primaryWeapon.SetOwner(team);
+        if (secondaryWeapon != null)
+            secondaryWeapon.SetOwner(team);
+    }
+
     public void FirePrimaryWeapon()
     {
-        primaryWeapon.Fire();
+        if (primaryWeapon != null)
+            primaryWeapon.Fire();
     }
 
     public void FireSecondaryWeapon()
