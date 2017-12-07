@@ -9,8 +9,13 @@ public enum Team
 
 public class Weapon : MonoBehaviour
 {
+    const float DAMAGE_PER_SECOND = 5;
+
     [SerializeField] Ammo ammoPrefab;
-    [SerializeField] float cooldown;
+    [SerializeField] [Range(0.1f, 5)] float shotsPerSecond = 1;
+
+    float cooldown;
+    int power;
 
     Team owner;
     float secondsToNextShot;
@@ -18,6 +23,8 @@ public class Weapon : MonoBehaviour
     void Start()
     {
         SetOwner((Team)gameObject.layer);
+        cooldown = 1 / Mathf.Max(shotsPerSecond, 0.1f);
+        power = (int)(DAMAGE_PER_SECOND * cooldown);
     }
 
     public void Fire()
@@ -25,7 +32,7 @@ public class Weapon : MonoBehaviour
         if (secondsToNextShot <= 0)
         {
             var ammo = Instantiate<Ammo>(ammoPrefab, transform.position, transform.rotation);
-            ammo.SetOwner(owner);
+            ammo.Setup(owner, power);
             secondsToNextShot = cooldown;
         }
     }

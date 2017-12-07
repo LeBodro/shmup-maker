@@ -2,12 +2,14 @@
 
 public class Ammo : Vehicle
 {
-    [SerializeField] float damage;
     [SerializeField] float lifeTime = 5f;
 
-    public void SetOwner(Team owner)
+    float damage;
+
+    public void Setup(Team owner, int power)
     {
         gameObject.layer = 3 + (int)owner;
+        damage = power;
     }
 
     void OnCollisionEnter(Collision coll)

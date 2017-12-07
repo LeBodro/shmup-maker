@@ -11,13 +11,6 @@ public class Level : MonoBehaviour
 
     int current = 0;
 
-    Action update;
-
-    void Start()
-    {
-        update = UpdateGameplay;
-    }
-
     void Update()
     {
         if (current < waves.Length)
