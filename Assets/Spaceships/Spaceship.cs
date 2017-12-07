@@ -35,4 +35,9 @@ public class Spaceship : MonoBehaviour
         if (secondaryWeapon != null)
             secondaryWeapon.Fire();
     }
+
+    public void Remove()
+    {
+        GetComponent<Life>().KillSilently();
+    }
 }

@@ -39,4 +39,9 @@ public class Life : MonoBehaviour
             Instantiate<ParticleSystem>(deathFxPrefab, transform.position, Quaternion.identity);
         _onDeath();
     }
+
+    public void KillSilently()
+    {
+        _onDeath();
+    }
 }

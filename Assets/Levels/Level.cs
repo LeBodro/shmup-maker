@@ -20,7 +20,7 @@ public class Level : MonoBehaviour
 
     void Update()
     {
-        if (current <= waves.Length)
+        if (current < waves.Length)
             UpdateGameplay();
     }
 

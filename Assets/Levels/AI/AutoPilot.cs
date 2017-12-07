@@ -28,13 +28,18 @@ public class AutoPilot : MonoBehaviour
     void FixedUpdate()
     {
         if (destinations.Count > 0)
-        {
-            var currentDestination = destinations.Peek();
+            FollowCourse();
+        else
+            ship.Remove();
+    }
 
-            ship.Engine.MoveToward(currentDestination);
-            if (Vector3.Distance(transform.position, currentDestination) <= REACHED_THRESHOLD)
-                destinations.Dequeue();
-        }
+    void FollowCourse()
+    {
+        var currentDestination = destinations.Peek();
+
+        ship.Engine.MoveToward(currentDestination);
+        if (Vector3.Distance(transform.position, currentDestination) <= REACHED_THRESHOLD)
+            destinations.Dequeue();
     }
 
     void Update()
