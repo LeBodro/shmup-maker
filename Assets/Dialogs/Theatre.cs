@@ -30,7 +30,7 @@ public class Theatre : MonoBehaviour
 
     void Update()
     {
-        if (IsPlaying && Input.GetAxis("Next") > 0.1f)
+        if (IsPlaying && Input.GetButtonDown("Next"))
         {
             if (currentDialog.HasNotEnded)
                 Continue();
