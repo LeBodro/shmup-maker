@@ -6,7 +6,7 @@ public class Dialog : MonoBehaviour
     public class Replica
     {
         public Actor actor;
-        public string text;
+        [TextArea] public string text;
 
         public bool IsLast { get; private set; }
 
