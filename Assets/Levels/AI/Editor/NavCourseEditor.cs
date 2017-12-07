@@ -11,7 +11,9 @@ public class NavCourseEditor : Editor
         NavCourse course = (NavCourse)target;
         if (GUILayout.Button("Add Nav Point"))
         {
-            course.AddNavPoint();
+            var point = course.AddNavPoint();
+            Selection.activeGameObject = point.gameObject;
+            SceneView.lastActiveSceneView.FrameSelected();
         }
     }
 }

@@ -1,14 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System;
 
 public class GameController : MonoBehaviour
 {
     [SerializeField] Vehicle playerShipPrefab;
+    [SerializeField] Theatre theatre;
 
     Action executeState;
     IDictionary<int, PlayerController> players = new Dictionary<int, PlayerController>();
+    Level currentLevel;
 
     void Start()
     {
@@ -40,6 +41,13 @@ public class GameController : MonoBehaviour
 
     void StartGameState()
     {
-        
+        currentLevel = FindObjectOfType<Level>();
+        if (currentLevel == null)
+        {
+            Debug.LogError("NO LEVEL FOUND!");
+            return;
+        }
+
+        currentLevel.Begin();
     }
 }

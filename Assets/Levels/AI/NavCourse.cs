@@ -14,14 +14,17 @@ public class NavCourse : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(transform.position, 2f);
 
-        Gizmos.DrawLine(transform.position, steps[0].Position);
-        var previousPosition = steps[0].Position;
-        for (int i = 1; i < steps.Length; i++)
+        if (steps.Length > 0)
         {
-            if (steps[i] != null)
+            Gizmos.DrawLine(transform.position, steps[0].Position);
+            var previousPosition = steps[0].Position;
+            for (int i = 1; i < steps.Length; i++)
             {
-                Gizmos.DrawLine(previousPosition, steps[i].Position);
-                previousPosition = steps[i].Position;
+                if (steps[i] != null)
+                {
+                    Gizmos.DrawLine(previousPosition, steps[i].Position);
+                    previousPosition = steps[i].Position;
+                }
             }
         }
     }
@@ -40,7 +43,7 @@ public class NavCourse : MonoBehaviour
         return stepPositions;
     }
 
-    public void AddNavPoint()
+    public NavPoint AddNavPoint()
     {
         NavPoint point = new GameObject(string.Format("NavPoint ({0})", steps.Length + 1)).AddComponent<NavPoint>();
         point.transform.SetParent(transform);
@@ -67,5 +70,6 @@ public class NavCourse : MonoBehaviour
             }
         }
         steps[currentIndex] = point;
+        return point;
     }
 }

@@ -10,9 +10,18 @@ public class Level : MonoBehaviour
     [SerializeField] AIWave boss;
 
     int current = 0;
+    bool pending = true;
+
+    public void Begin()
+    {
+        pending = false;
+    }
 
     void Update()
     {
+        if (pending)
+            return;
+
         if (current < waves.Length)
             UpdateGameplay();
     }

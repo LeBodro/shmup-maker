@@ -13,6 +13,7 @@ public class Weapon : MonoBehaviour
 
     [SerializeField] Ammo ammoPrefab;
     [SerializeField] [Range(0.1f, 5)] float shotsPerSecond = 1;
+    [SerializeField] [Range(0.2f, 1)] float powerDamping = 1;
 
     float cooldown;
     int power;
@@ -24,7 +25,7 @@ public class Weapon : MonoBehaviour
     {
         SetOwner((Team)gameObject.layer);
         cooldown = 1 / Mathf.Max(shotsPerSecond, 0.1f);
-        power = (int)(DAMAGE_PER_SECOND * cooldown);
+        power = (int)Mathf.Max(DAMAGE_PER_SECOND * cooldown * powerDamping, 1);
     }
 
     public void Fire()
