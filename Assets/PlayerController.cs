@@ -1,25 +1,25 @@
 ﻿using UnityEngine;
 
-[RequireComponent(typeof(Vehicle))]
+[RequireComponent(typeof(Spaceship))]
 public class PlayerController : MonoBehaviour
 {
-    const string HORIZONTAL = "{0}Horizontal";
-    const string VERTICAL = "{0}Vertical";
-    const string FIRE = "{0}Action{1}";
+    const string HORIZONTAL = "P{0}Horizontal";
+    const string VERTICAL = "P{0}Vertical";
+    const string FIRE = "P{0}Action{1}";
 
-    [SerializeField] string controllerId = "P0";
-    [SerializeField] Weapon[] weapons;
+    public int ControllerId { get; set; }
 
-    Vehicle spaceship;
+
+    Spaceship spaceship;
 
     void Start()
     {
-        spaceship = GetComponent<Vehicle>();
+        spaceship = GetComponent<Spaceship>();
     }
 
     void FixedUpdate()
     {
-        spaceship.MoveTowardRelative(
+        spaceship.Engine.MoveTowardRelative(
             GetAxis(HORIZONTAL),
             GetAxis(VERTICAL)
         );
@@ -27,20 +27,20 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        for (int i = 0; i < weapons.Length && i < 3; i++)
-            if (weapons[i] != null && GetButton(FIRE, i + 1))
-                weapons[i].Fire();
-                
-                
+        if (GetButton(FIRE, 1))
+            spaceship.FirePrimaryWeapon();
+
+        if (GetButton(FIRE, 2))
+            spaceship.FireSecondaryWeapon();
     }
 
     float GetAxis(string format)
     {
-        return Input.GetAxis(string.Format(format, controllerId));
+        return Input.GetAxis(string.Format(format, ControllerId));
     }
 
     bool GetButton(string format, int button)
     {
-        return Input.GetAxis(string.Format(format, controllerId, button)) > 0.1;
+        return Input.GetAxis(string.Format(format, ControllerId, button)) > 0.1;
     }
 }
