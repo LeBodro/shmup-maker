@@ -3,6 +3,7 @@
 public class Ammo : Vehicle
 {
     [SerializeField] float damage;
+    [SerializeField] float lifeTime = 5f;
 
     public void SetOwner(Team owner)
     {
@@ -25,5 +26,8 @@ public class Ammo : Vehicle
         var angle = transform.eulerAngles.z * Mathf.Deg2Rad;
         MoveTowardRelative(-Mathf.Sin(angle), Mathf.Cos(angle));
         base.FixedUpdate();
+        lifeTime -= Time.fixedDeltaTime;
+        if (lifeTime <= 0)
+            hull.Kill();
     }
 }
