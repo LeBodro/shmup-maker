@@ -1,19 +1,13 @@
 ﻿using UnityEngine;
 
-public class Dialog : MonoBehaviour
+[CreateAssetMenu]
+public class Dialog : ScriptableObject
 {
     [System.Serializable]
     public class Replica
     {
         public Actor actor;
         [TextArea] public string text;
-
-        public bool IsLast { get; private set; }
-
-        public void SetLast()
-        {
-            IsLast = true;
-        }
     }
 
     [SerializeField] Replica[] replicas;
