@@ -36,10 +36,10 @@ public class GameController : MonoBehaviour
                 AddPlayer(i);
 
         if (players.Count > 0 && Input.GetButtonDown("Next"))
-            executeState = StartGameState;
+            BeginLevel();
     }
 
-    void StartGameState()
+    void BeginLevel()
     {
         currentLevel = FindObjectOfType<Level>();
         if (currentLevel == null)
@@ -49,5 +49,8 @@ public class GameController : MonoBehaviour
         }
 
         currentLevel.Begin();
+        executeState = delegate
+        {
+        };
     }
 }

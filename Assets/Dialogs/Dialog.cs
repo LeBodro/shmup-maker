@@ -19,6 +19,11 @@ public class Dialog : ScriptableObject
         get { return nextReplicaIndex < replicas.Length; }
     }
 
+    public void Initialize()
+    {
+        nextReplicaIndex = 0;
+    }
+
     public Replica GetNextReplica()
     {
         var nextReplica = replicas[nextReplicaIndex];

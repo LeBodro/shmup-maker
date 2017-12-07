@@ -3,6 +3,7 @@ using System;
 
 public class Level : MonoBehaviour
 {
+    [SerializeField] Theatre theatre;
     [SerializeField] Dialog introDialog;
     [SerializeField] Dialog bossDialog;
     [SerializeField] Dialog outroDialog;
@@ -14,7 +15,7 @@ public class Level : MonoBehaviour
 
     public void Begin()
     {
-        pending = false;
+        theatre.Play(introDialog, () => pending = false);
     }
 
     void Update()
@@ -23,14 +24,32 @@ public class Level : MonoBehaviour
             return;
 
         if (current < waves.Length)
-            UpdateGameplay();
+            UpdateWaves();
+        else
+            UpdateBoss();
     }
 
-    void UpdateGameplay()
+    void UpdateWaves()
     {
         if (waves[current].IsNotDone)
             waves[current].Update();
         else if (waves[current].AllShipsAreGone)
             current++;
+
+        if (current == waves.Length)
+        {
+            pending = true;
+            theatre.Play(bossDialog, () => pending = false);
+        }
+    }
+
+    void UpdateBoss()
+    {
+        boss.Update();
+        if (boss.AllShipsAreGone)
+        {
+            pending = true;
+            theatre.Play(outroDialog, () => Debug.Log("Congratulations!"));
+        }
     }
 }
