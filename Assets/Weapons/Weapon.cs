@@ -43,7 +43,7 @@ public class Weapon : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.green;
         Gizmos.DrawSphere(transform.position, 0.5f);
         GizmoPlus.DrawArrowGizmo(transform.position, transform.eulerAngles.z * Mathf.Deg2Rad, 3);
     }
