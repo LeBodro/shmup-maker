@@ -11,7 +11,7 @@ public class Theatre : MonoBehaviour
     Dialog currentDialog;
     System.Action onDone;
 
-    bool IsPlaying { get { return currentDialog != null; } }
+    bool IsPlaying { get; set; }
 
     public void Play(Dialog dialog, System.Action onDone)
     {
@@ -19,6 +19,7 @@ public class Theatre : MonoBehaviour
         scene.SetActive(true);
         currentDialog = dialog;
         currentDialog.Initialize();
+        Delay.Wait(2).Then(() => IsPlaying = true);
         Continue();
     }
 
@@ -46,6 +47,7 @@ public class Theatre : MonoBehaviour
     void End()
     {
         currentDialog = null;
+        IsPlaying = false;
         Destroy(currentActor.gameObject);
         scene.SetActive(false);
         if (onDone != null)
