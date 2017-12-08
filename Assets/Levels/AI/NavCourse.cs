@@ -14,7 +14,7 @@ public class NavCourse : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(transform.position, 2f);
 
-        if (steps.Length > 0)
+        if (steps != null && steps.Length > 0)
         {
             Gizmos.DrawLine(transform.position, steps[0].Position);
             var previousPosition = steps[0].Position;

@@ -13,4 +13,12 @@ public class RoomCreator
         Selection.activeGameObject = copy;
         SceneView.lastActiveSceneView.FrameSelected();
     }
+
+    [MenuItem("Atelier/Create/NavCourse", false, 101)]
+    static void CreaseNavCourse()
+    {
+        GameObject course = new GameObject("NavCourse", new System.Type[]{ typeof(NavCourse) });
+        Selection.activeGameObject = course;
+        SceneView.lastActiveSceneView.FrameSelected();
+    }
 }
