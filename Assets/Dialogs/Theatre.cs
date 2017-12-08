@@ -19,7 +19,9 @@ public class Theatre : MonoBehaviour
         scene.SetActive(true);
         currentDialog = dialog;
         currentDialog.Initialize();
-        Delay.Wait(2).Then(() => IsPlaying = true);
+        new Promise()
+            .Wait(2)
+            .Then(() => IsPlaying = true);
         Continue();
     }
 
