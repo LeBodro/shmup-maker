@@ -1,5 +1,9 @@
 ﻿using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class NavCourse : MonoBehaviour
 {
     [SerializeField] NavPoint[] steps;
@@ -11,8 +15,12 @@ public class NavCourse : MonoBehaviour
 
     void OnDrawGizmos()
     {
+        #if UNITY_EDITOR
         Gizmos.color = Color.green;
         Gizmos.DrawSphere(transform.position, 2f);
+
+        if (Selection.activeTransform != transform && !IsInNavPoints(Selection.activeTransform))
+            Gizmos.color = new Color(0, 1, 0, 0.1f);
 
         if (steps != null && steps.Length > 0)
         {
@@ -27,6 +35,15 @@ public class NavCourse : MonoBehaviour
                 }
             }
         }
+        #endif
+    }
+
+    bool IsInNavPoints(Transform value)
+    {
+        foreach (var point in steps)
+            if (point.transform == value)
+                return true;
+        return false;
     }
 
     public Vector3 GetSpawnPosition()
