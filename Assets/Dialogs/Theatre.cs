@@ -37,7 +37,6 @@ public class Theatre : MonoBehaviour
             Destroy(currentActor.gameObject);
         currentActor = Instantiate<Actor>(replica.actor, actorHolder);
         dialogBox.text = replica.text;
-        Debug.Log(replica.text);
     }
 
     void Update()
