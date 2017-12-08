@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class Theatre : MonoBehaviour
 {
@@ -19,10 +20,14 @@ public class Theatre : MonoBehaviour
         scene.SetActive(true);
         currentDialog = dialog;
         currentDialog.Initialize();
-        new Promise()
-            .Wait(2)
-            .Then(() => IsPlaying = true);
+        StartCoroutine(UnlockNextInput());
         Continue();
+    }
+
+    IEnumerator UnlockNextInput()
+    {
+        yield return new WaitForSeconds(2);
+        IsPlaying = true;
     }
 
     void Continue()
