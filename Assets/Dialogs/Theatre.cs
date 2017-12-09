@@ -26,7 +26,7 @@ public class Theatre : MonoBehaviour
 
     IEnumerator UnlockNextInput()
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(0.33f);
         IsPlaying = true;
     }
 
