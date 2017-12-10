@@ -5,10 +5,9 @@ using System.Collections;
 public class Theatre : MonoBehaviour
 {
     [SerializeField] Text dialogBox;
-    [SerializeField] Transform actorHolder;
     [SerializeField] GameObject scene;
+    [SerializeField] ActorHolder holder = null;
 
-    Actor currentActor = null;
     Dialog currentDialog;
     System.Action onDone;
 
@@ -33,9 +32,7 @@ public class Theatre : MonoBehaviour
     void Continue()
     {
         var replica = currentDialog.GetNextReplica();
-        if (currentActor != null)
-            Destroy(currentActor.gameObject);
-        currentActor = Instantiate<Actor>(replica.actor, actorHolder);
+        holder.SetCharacter(replica.actor);
         dialogBox.text = replica.text;
     }
 
@@ -54,7 +51,6 @@ public class Theatre : MonoBehaviour
     {
         currentDialog = null;
         IsPlaying = false;
-        Destroy(currentActor.gameObject);
         scene.SetActive(false);
         if (onDone != null)
             onDone();

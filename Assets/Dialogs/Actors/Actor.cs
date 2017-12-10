@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
-public class Actor : MonoBehaviour
+[CreateAssetMenu]
+public class Actor : ScriptableObject
 {
-    [SerializeField] Image portrait;
-    [SerializeField] Text characterName;
+    [SerializeField] Sprite portrait;
+    [SerializeField] string characterName;
+
+    public Sprite Portrait { get { return portrait; } }
+
+    public string CharacterName { get { return characterName; } }
 }
