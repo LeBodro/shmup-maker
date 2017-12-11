@@ -18,7 +18,6 @@ public class ProgressBar : MonoBehaviour
 
     public void SetRatio(float progress)
     {
-        Debug.Log(progress);
         var displayedProgress = distribution.Evaluate(progress);
         int activeUpperBound = Mathf.RoundToInt((float)cells.Count * displayedProgress);
 
