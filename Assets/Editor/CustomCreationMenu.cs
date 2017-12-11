@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEditor;
 
-public class RoomCreator
+public class CustomCreationMenu
 {
-    [MenuItem("Atelier/Create/Spaceship", false, 100)]
+    [MenuItem("Workshop/Create/Spaceship", false, 100)]
     static void CreateSpaceship()
     {
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Spaceships/BaseSpaceship.prefab");
@@ -11,14 +11,16 @@ public class RoomCreator
         copy.name = "My Spaceship";
         PrefabUtility.DisconnectPrefabInstance(copy);
         Selection.activeGameObject = copy;
-        SceneView.lastActiveSceneView.FrameSelected();
+        if (SceneView.lastActiveSceneView != null)
+            SceneView.lastActiveSceneView.FrameSelected();
     }
 
-    [MenuItem("Atelier/Create/NavCourse", false, 101)]
+    [MenuItem("Workshop/Create/NavCourse", false, 101)]
     static void CreaseNavCourse()
     {
         GameObject course = new GameObject("NavCourse", new System.Type[]{ typeof(NavCourse) });
         Selection.activeGameObject = course;
-        SceneView.lastActiveSceneView.FrameSelected();
+        if (SceneView.lastActiveSceneView != null)
+            SceneView.lastActiveSceneView.FrameSelected();
     }
 }
