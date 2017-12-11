@@ -6,7 +6,26 @@ public class Life : MonoBehaviour
     [SerializeField] float maximum;
     [SerializeField] ParticleSystem deathFxPrefab;
 
-    float current;
+    float _current;
+
+    float Current
+    {
+        get { return _current; }
+        set
+        {
+            float oldValue = _current;
+            _current = value;
+            _onChange(oldValue / maximum, _current / maximum);
+        }
+    }
+
+    event Action<float, float> _onChange = delegate {};
+
+    public event Action<float, float> OnChange
+    {
+        add { _onChange += value; }
+        remove { _onChange -= value; }
+    }
 
     event Action _onDeath = delegate {};
 
@@ -18,19 +37,19 @@ public class Life : MonoBehaviour
 
     void Start()
     {
-        current = maximum;
+        Current = maximum;
     }
 
     public void Hurt(float damage)
     {
-        current -= damage;
-        if (current <= 0)
+        Current -= damage;
+        if (Current <= 0)
             Kill();
     }
 
     public void Heal(float restoration)
     {
-        current = Mathf.Min(current + restoration, maximum);
+        Current = Mathf.Min(Current + restoration, maximum);
     }
 
     public void Kill()

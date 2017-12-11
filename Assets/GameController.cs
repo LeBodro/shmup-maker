@@ -5,6 +5,8 @@ using System;
 public class GameController : MonoBehaviour
 {
     [SerializeField] Vehicle playerShipPrefab;
+    // TEMP DEBUG VAR
+    [SerializeField] ProgressBar lifeBarPrefab;
     [SerializeField] Theatre theatre;
 
     Action executeState;
@@ -27,6 +29,10 @@ public class GameController : MonoBehaviour
         var controller = ship.gameObject.AddComponent<PlayerController>();
         controller.ControllerId = id;
         players.Add(id, controller);
+
+        //debug
+        if (id == 1)
+            controller.GetComponent<Life>().OnChange += (oldLife, newLife) => lifeBarPrefab.SetRatio(newLife);
     }
 
     void PlayerRegistrationState()
