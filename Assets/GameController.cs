@@ -54,7 +54,7 @@ public class GameController : MonoBehaviour
             return;
         }
 
-        currentLevel.Begin();
+        currentLevel.Begin(theatre);
         executeState = delegate
         {
         };

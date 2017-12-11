@@ -3,7 +3,6 @@ using System;
 
 public class Level : MonoBehaviour
 {
-    [SerializeField] Theatre theatre;
     [SerializeField] Dialog introDialog;
     [SerializeField] Dialog bossDialog;
     [SerializeField] Dialog outroDialog;
@@ -12,9 +11,11 @@ public class Level : MonoBehaviour
 
     int current = 0;
     bool pending = true;
+    Theatre theatre;
 
-    public void Begin()
+    public void Begin(Theatre theatre)
     {
+        this.theatre = theatre;
         theatre.Play(introDialog, () => pending = false);
     }
 
