@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 public class CustomCreationMenu
 {
@@ -7,9 +9,10 @@ public class CustomCreationMenu
     static void CreateSpaceship()
     {
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Spaceships/BaseSpaceship.prefab");
-        var copy = GameObject.Instantiate(prefab, Vector3.zero, Quaternion.identity);
+        GameObject copy = Object.Instantiate(prefab, Vector3.zero, Quaternion.identity);
         copy.name = "My Spaceship";
         PrefabUtility.DisconnectPrefabInstance(copy);
+
         Selection.activeGameObject = copy;
         if (SceneView.lastActiveSceneView != null)
             SceneView.lastActiveSceneView.FrameSelected();
@@ -18,7 +21,7 @@ public class CustomCreationMenu
     [MenuItem("Workshop/Create/NavCourse", false, 101)]
     static void CreaseNavCourse()
     {
-        GameObject course = new GameObject("NavCourse", new System.Type[]{ typeof(NavCourse) });
+        GameObject course = new GameObject("NavCourse", new []{ typeof(NavCourse) });
         Selection.activeGameObject = course;
         if (SceneView.lastActiveSceneView != null)
             SceneView.lastActiveSceneView.FrameSelected();
