@@ -5,6 +5,7 @@ public class Life : MonoBehaviour
 {
     [SerializeField] float maximum;
     [SerializeField] ParticleSystem deathFxPrefab;
+    [SerializeField] String deathSound = "Explosion";
 
     float _current;
 
@@ -55,7 +56,10 @@ public class Life : MonoBehaviour
     public void Kill()
     {
         if (deathFxPrefab != null)
+        {
             Instantiate<ParticleSystem>(deathFxPrefab, transform.position, Quaternion.identity);
+            CrackleAudio.SoundController.PlaySound(deathSound);
+        }
         _onDeath();
     }
 

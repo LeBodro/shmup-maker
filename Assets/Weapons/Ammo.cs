@@ -30,6 +30,6 @@ public class Ammo : Vehicle
         base.FixedUpdate();
         lifeTime -= Time.fixedDeltaTime;
         if (lifeTime <= 0)
-            hull.Kill();
+            hull.KillSilently();
     }
 }

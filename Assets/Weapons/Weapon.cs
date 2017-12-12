@@ -35,6 +35,7 @@ public class Weapon : MonoBehaviour
             var ammo = Instantiate<Ammo>(ammoPrefab, transform.position, transform.rotation);
             ammo.Setup(owner, power);
             secondsToNextShot = cooldown;
+            CrackleAudio.SoundController.PlaySound("Laser");
         }
     }
 

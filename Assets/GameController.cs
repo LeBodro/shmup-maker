@@ -29,6 +29,7 @@ public class GameController : MonoBehaviour
         var controller = ship.gameObject.AddComponent<PlayerController>();
         controller.ControllerId = id;
         players.Add(id, controller);
+        CrackleAudio.SoundController.PlaySound("Reactor");
 
         //debug
         if (id == 1)

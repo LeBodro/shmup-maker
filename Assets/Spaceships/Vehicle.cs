@@ -16,7 +16,7 @@ public class Vehicle : MonoBehaviour
         body = GetComponent<Rigidbody>();
         sqrMaximumSpeed = maximumSpeed * maximumSpeed;
         hull = GetComponent<Life>();
-        hull.OnDeath += () => Destroy(gameObject);
+        hull.OnDeath += Die;
     }
 
     public void MoveToward(float x, float y)
@@ -44,5 +44,10 @@ public class Vehicle : MonoBehaviour
         var baseAngle = transform.eulerAngles;
         baseAngle.y = 0;
         transform.eulerAngles = baseAngle + new Vector3(0, -60f / maximumSpeed, 0) * body.velocity.x;
+    }
+
+    void Die()
+    {
+        gameObject.SetActive(false);
     }
 }
