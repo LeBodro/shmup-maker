@@ -8,7 +8,7 @@ public class ProgressBar : MonoBehaviour
 
     IList<GameObject> cells;
 
-    void Start()
+    void Awake()
     {
         var count = transform.childCount;
         cells = new List<GameObject>(count);

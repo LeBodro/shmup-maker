@@ -5,8 +5,7 @@ using System;
 public class GameController : MonoBehaviour
 {
     [SerializeField] Vehicle playerShipPrefab;
-    // TEMP DEBUG VAR
-    [SerializeField] LifeBar lifeBarPrefab;
+    [SerializeField] HUD hud;
     [SerializeField] Theatre theatre;
 
     Action executeState;
@@ -31,9 +30,7 @@ public class GameController : MonoBehaviour
         players.Add(id, controller);
         CrackleAudio.SoundController.PlaySound("Reactor");
 
-        //debug
-        if (id == 1)
-            controller.GetComponent<Life>().OnChange += (oldLife, newLife) => lifeBarPrefab.SetLifeRatio(newLife);
+        hud.RegisterPlayer(controller);
     }
 
     void PlayerRegistrationState()
