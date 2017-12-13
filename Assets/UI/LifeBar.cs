@@ -13,9 +13,12 @@ public class LifeBar : MonoBehaviour
         damageIndicator.SetFloat("DamageRatio", 1 - ratio);
     }
 
-    public void SetPlayer(int id)
+    public void SetPlayer(int id, SimpleColorScheme brush)
     {
         playerId.text = string.Format("P{0}", id);
-        // TODO: set color too
+        brush.Paint(id, playerId);
+        var graphics = lifeDisplay.GetComponentsInChildren<Graphic>();
+        for (int i = 0; i < graphics.Length; i++)
+            brush.Paint(id, graphics[i]);
     }
 }
