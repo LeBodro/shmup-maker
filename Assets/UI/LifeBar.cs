@@ -10,7 +10,7 @@ public class LifeBar : MonoBehaviour
     public void SetLifeRatio(float ratio)
     {
         lifeDisplay.SetRatio(ratio);
-        damageIndicator.SetFloat("DamageRatio", 1 - ratio);
+        damageIndicator.SetFloat("DamageRatio", (1 - ratio) * 3);
     }
 
     public void SetPlayer(int id, SimpleColorScheme brush)
