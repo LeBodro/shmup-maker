@@ -4,7 +4,7 @@ using System;
 
 public class GameController : MonoBehaviour
 {
-    [SerializeField] Vehicle playerShipPrefab;
+    [SerializeField] ShipSelector ships;
     [SerializeField] HUD hud;
     [SerializeField] Theatre theatre;
 
@@ -22,25 +22,41 @@ public class GameController : MonoBehaviour
         executeState();
     }
 
+    void PlayerRegistrationState()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            if (!players.ContainsKey(i))
+            {
+                if (Input.GetButtonDown(string.Format("P{0}Action1", i)))
+                    AddPlayer(i);
+            }
+            else if (Input.GetButtonDown(string.Format("P{0}Cycle", i)))
+            {
+                SwitchShipForPlayer(i);
+            }
+        }
+
+        if (players.Count > 0 && Input.GetButtonDown("Next"))
+            BeginLevel();
+    }
+
+    void SwitchShipForPlayer(int id)
+    {
+        Destroy(players[id].gameObject);
+        players.Remove(id);
+        AddPlayer(id);
+    }
+
     void AddPlayer(int id)
     {
-        var ship = Instantiate<Vehicle>(playerShipPrefab);
+        var ship = ships.GetInstanceForId(id);
         var controller = ship.gameObject.AddComponent<PlayerController>();
         controller.ControllerId = id;
         players.Add(id, controller);
         CrackleAudio.SoundController.PlaySound("Reactor");
-
+        
         hud.RegisterPlayer(controller);
-    }
-
-    void PlayerRegistrationState()
-    {
-        for (int i = 0; i < 5; i++)
-            if (!players.ContainsKey(i) && Input.GetButtonDown(string.Format("P{0}Action1", i)))
-                AddPlayer(i);
-
-        if (players.Count > 0 && Input.GetButtonDown("Next"))
-            BeginLevel();
     }
 
     void BeginLevel()
