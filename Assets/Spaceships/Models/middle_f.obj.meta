@@ -1,17 +1,17 @@
 fileFormatVersion: 2
-guid: a34560d08fb49ee4389abcdf63316655
-timeCreated: 1512591548
+guid: a188d9a973e9cae4da645144b56f4a3b
+timeCreated: 1513809728
 licenseType: Free
 ModelImporter:
-  serializedVersion: 21
+  serializedVersion: 19
   fileIDToRecycleName:
-    100000: ammo_missile
+    100000: middle_f
     100002: //RootNode
-    400000: ammo_missile
+    400000: middle_f
     400002: //RootNode
-    2300000: ammo_missile
-    3300000: ammo_missile
-    4300000: ammo_missile
+    2300000: middle_f
+    3300000: middle_f
+    4300000: middle_f
   materials:
     importMaterials: 1
     materialName: 0
@@ -34,7 +34,6 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    extraUserProperties: []
     clipAnimations: []
     isReadable: 0
   meshes:
@@ -42,10 +41,7 @@ ModelImporter:
     globalScale: 0.2
     meshCompression: 0
     addColliders: 0
-    importVisibility: 0
     importBlendShapes: 1
-    importCameras: 0
-    importLights: 0
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
@@ -61,7 +57,6 @@ ModelImporter:
     normalSmoothAngle: 60
     normalImportMode: 0
     tangentImportMode: 3
-    normalCalculationMode: 0
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
