@@ -37,7 +37,7 @@ public class Wave
 [System.Serializable]
 public class Formation
 {
-    [SerializeField] NavCourse course;
+    [SerializeField] NavNode graphStart;
     [SerializeField] Spaceship shipPrefab;
     [SerializeField] int shipCount;
     [SerializeField] float spawnCooldown;
@@ -58,13 +58,12 @@ public class Formation
         secondsToNextSpawn -= Time.deltaTime;
         if (secondsToNextSpawn <= 0)
         {
-            var ship = Object.Instantiate<Spaceship>(shipPrefab, course.GetSpawnPosition(), Quaternion.Euler(0, 0, 180));
+            var ship = Object.Instantiate<Spaceship>(shipPrefab, graphStart.Position, Quaternion.Euler(0, 0, 180));
             ship.SetTeam(team);
             shipsLeft++;
             ship.GetComponent<Life>().OnDeath += () => shipsLeft -= 1;
             var pilot = ship.gameObject.AddComponent<AutoPilot>();
-            foreach (var step in course.GetSteps())
-                pilot.QueueDestination(step);
+            pilot.StartCourseAt(graphStart);
             secondsToNextSpawn = spawnCooldown;
             shipCount--;
         }

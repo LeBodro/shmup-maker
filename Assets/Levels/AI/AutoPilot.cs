@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
 [RequireComponent(typeof(Spaceship))]
 public class AutoPilot : MonoBehaviour
@@ -7,39 +6,33 @@ public class AutoPilot : MonoBehaviour
     const float REACHED_THRESHOLD = 1.5f;
 
     Spaceship ship;
-    Queue<Vector3> destinations = new Queue<Vector3>();
+    NavNode destination;
 
     void Start()
     {
         ship = GetComponent<Spaceship>();
     }
 
-    public void QueueDestination(Vector3 destination)
+    public void StartCourseAt(NavNode start)
     {
-        destinations.Enqueue(destination);
-    }
-
-    public void OverrideDestination(Vector3 destination)
-    {
-        destinations.Clear();
-        QueueDestination(destination);
+        destination = start;
     }
 
     void FixedUpdate()
     {
-        if (destinations.Count > 0)
-            FollowCourse();
-        else
-            ship.Remove();
+        FollowCourse();
     }
 
     void FollowCourse()
     {
-        var currentDestination = destinations.Peek();
-
-        ship.Engine.MoveToward(currentDestination);
-        if (Vector3.Distance(transform.position, currentDestination) <= REACHED_THRESHOLD)
-            destinations.Dequeue();
+        ship.Engine.MoveToward(destination.Position);
+        if (Vector3.Distance(transform.position, destination.Position) <= REACHED_THRESHOLD)
+        {
+            if (destination.IsLast)
+                ship.Remove();
+            else
+                destination = destination.Next;
+        }
     }
 
     void Update()
