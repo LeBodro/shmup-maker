@@ -39,9 +39,9 @@ public class Formation
 {
     [SerializeField] NavNode graphStart;
     [SerializeField] Spaceship shipPrefab;
-    [SerializeField] int shipCount;
-    [SerializeField] float spawnCooldown;
-    [SerializeField] Team team = Team.Enemy;
+    [SerializeField] int shipCount = 1;
+    [SerializeField] float spawnCooldown = 1f;
+    Team team = Team.Enemy;
 
     float secondsToNextSpawn;
     int shipsLeft;
