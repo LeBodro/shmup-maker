@@ -62,31 +62,42 @@ public class NavCourse : MonoBehaviour
 
     public NavPoint AddNavPoint()
     {
-        NavPoint point = new GameObject(string.Format("NavPoint ({0})", steps.Length + 1)).AddComponent<NavPoint>();
+        int n = steps == null ? 1 : steps.Length + 1;
+        NavPoint point = new GameObject(string.Format("NavPoint ({0})", n)).AddComponent<NavPoint>();
+        
         point.transform.SetParent(transform);
         point.transform.position = transform.position + Vector3.right * 6;
         int nullCount = 0;
-        if (steps.Length > 0)
+        if (steps != null)
         {
-            for (int i = 0; i < steps.Length; i++)
-                if (steps[i] != null)
-                    point.transform.position = steps[i].Position + Vector3.right * 6;
-                else
-                    nullCount++;
+            if (steps.Length > 0)
+            {
+                for (int i = 0; i < steps.Length; i++)
+                    if (steps[i] != null)
+                        point.transform.position = steps[i].Position + Vector3.right * 6;
+                    else
+                        nullCount++;
+            }
+            
+            var stepsCache = steps;
+            steps = new NavPoint[stepsCache.Length + 1 - nullCount];
+            int currentIndex = 0;
+            for (int i = 0; i < stepsCache.Length; i++)
+            {
+                if (stepsCache[i] != null)
+                {
+                    steps[currentIndex] = stepsCache[i];
+                    currentIndex++;
+                }
+            }
+            steps[currentIndex] = point;
+        }
+        else
+        {
+            steps = new []{ point };
         }
 
-        var stepsCache = steps;
-        steps = new NavPoint[stepsCache.Length + 1 - nullCount];
-        int currentIndex = 0;
-        for (int i = 0; i < stepsCache.Length; i++)
-        {
-            if (stepsCache[i] != null)
-            {
-                steps[currentIndex] = stepsCache[i];
-                currentIndex++;
-            }
-        }
-        steps[currentIndex] = point;
+
         return point;
     }
 }

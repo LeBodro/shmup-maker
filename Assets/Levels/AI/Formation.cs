@@ -1,7 +1,41 @@
 ﻿using UnityEngine;
 
 [System.Serializable]
-public class AIWave
+public class Wave
+{
+    [SerializeField] Formation[] formations;
+
+    public bool IsNotDone
+    {
+        get
+        {
+            for (int i = 0; i < formations.Length; i++)
+                if (formations[i].IsNotDone)
+                    return true;
+            return false;
+        }
+    }
+
+    public bool AllShipsAreGone
+    {
+        get
+        {
+            for (int i = 0; i < formations.Length; i++)
+                if (!formations[i].AllShipsAreGone)
+                    return false;
+            return true;
+        }
+    }
+
+    public void Update()
+    {
+        for (int i = 0; i < formations.Length; i++)
+            formations[i].Update();
+    }
+}
+
+[System.Serializable]
+public class Formation
 {
     [SerializeField] NavCourse course;
     [SerializeField] Spaceship shipPrefab;

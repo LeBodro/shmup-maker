@@ -6,8 +6,8 @@ public class Level : MonoBehaviour
     [SerializeField] Dialog introDialog;
     [SerializeField] Dialog bossDialog;
     [SerializeField] Dialog outroDialog;
-    [SerializeField] AIWave[] waves;
-    [SerializeField] AIWave boss;
+    [SerializeField] Wave[] waves;
+    [SerializeField] Formation boss;
 
     int current = 0;
     bool pending = true;
