@@ -7,22 +7,20 @@ public class GameController : MonoBehaviour
     [SerializeField] ShipSelector ships;
     [SerializeField] HUD hud;
     [SerializeField] Theatre theatre;
+    [SerializeField] Level[] levels;
 
-    Action executeState;
+    bool registeringPlayers = true;
     IDictionary<int, PlayerController> players = new Dictionary<int, PlayerController>();
     Level currentLevel;
-
-    void Start()
-    {
-        executeState = PlayerRegistrationState;
-    }
+    int nextLevelIndex;
 
     void Update()
     {
-        executeState();
+        if (registeringPlayers)
+            CheckForPlayerRegistration();
     }
 
-    void PlayerRegistrationState()
+    void CheckForPlayerRegistration()
     {
         for (int i = 0; i < 5; i++)
         {
@@ -38,7 +36,7 @@ public class GameController : MonoBehaviour
         }
 
         if (players.Count > 0 && Input.GetButtonDown("Next"))
-            BeginLevel();
+            BeginNextLevel();
     }
 
     void SwitchShipForPlayer(int id)
@@ -59,18 +57,23 @@ public class GameController : MonoBehaviour
         hud.RegisterPlayer(controller);
     }
 
-    void BeginLevel()
+    void BeginNextLevel()
     {
-        currentLevel = FindObjectOfType<Level>();
-        if (currentLevel == null)
+        BeginLevel(nextLevelIndex);
+        nextLevelIndex++;
+    }
+
+    void BeginLevel(int id)
+    {
+        if (id >= levels.Length || levels[id] == null)
         {
             Debug.LogError("NO LEVEL FOUND!");
             return;
         }
 
+        currentLevel = levels[id];
         currentLevel.Begin(theatre);
-        executeState = delegate
-        {
-        };
+        currentLevel.OnVictory += BeginNextLevel;
+        registeringPlayers = false;
     }
 }

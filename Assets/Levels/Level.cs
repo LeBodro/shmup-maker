@@ -13,6 +13,14 @@ public class Level : MonoBehaviour
     bool pending = true;
     Theatre theatre;
 
+    event Action _onVictory = delegate{};
+
+    public event Action OnVictory
+    {
+        add { _onVictory += value; }
+        remove { _onVictory -= value; }
+    }
+
     public void Begin(Theatre theatre)
     {
         this.theatre = theatre;
@@ -50,7 +58,7 @@ public class Level : MonoBehaviour
         if (boss.AllShipsAreGone)
         {
             pending = true;
-            theatre.Play(outroDialog, () => Debug.Log("Congratulations!"));
+            theatre.Play(outroDialog, _onVictory);
         }
     }
 
