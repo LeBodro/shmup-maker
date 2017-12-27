@@ -9,7 +9,7 @@ public class NavNodeEditor : Editor
         DrawDefaultInspector();
 
         NavNode graph = (NavNode)target;
-        if (GUILayout.Button("Add Nav Point"))
+        if (GUILayout.Button("Insert Node"))
         {
             NavNode node = graph.InsertNode();
             Selection.activeGameObject = node.gameObject;

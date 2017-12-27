@@ -53,4 +53,24 @@ public class Level : MonoBehaviour
             theatre.Play(outroDialog, () => Debug.Log("Congratulations!"));
         }
     }
+
+    #if UNITY_EDITOR
+    public void RemoveWave(int waveId)
+    {
+        var cache = new Wave[waves.Length - 1];
+        for (int i = 0; i < cache.Length; i++)
+        {
+            if (i < waveId)
+                cache[i] = waves[i];
+            else
+                cache[i] = waves[i + 1];
+        }
+        waves = cache;
+    }
+
+    public void RemoveFormation(int waveId, int formationId)
+    {
+        waves[waveId].RemoveFormation(formationId);
+    }
+    #endif
 }

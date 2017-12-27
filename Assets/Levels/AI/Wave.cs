@@ -32,6 +32,21 @@ public class Wave
         for (int i = 0; i < formations.Length; i++)
             formations[i].Update();
     }
+
+    #if UNITY_EDITOR
+    public void RemoveFormation(int index)
+    {
+        var cache = new Formation[formations.Length - 1];
+        for (int i = 0; i < cache.Length; i++)
+        {
+            if (i < index)
+                cache[i] = formations[i];
+            else
+                cache[i] = formations[i + 1];
+        }
+        formations = cache;
+    }
+    #endif
 }
 
 [System.Serializable]
