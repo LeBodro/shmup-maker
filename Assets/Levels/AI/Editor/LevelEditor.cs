@@ -11,7 +11,7 @@ public class LevelEditor : Editor
 
     Level level;
     GUILayoutOption[] noOptions = { };
-    string assetPath = "";
+    string prefabPath = "";
 
     public override void OnInspectorGUI()
     {
@@ -43,6 +43,8 @@ public class LevelEditor : Editor
 
         HorizontalLine();
         BossSection();
+
+        serializedObject.ApplyModifiedProperties();
     }
 
     void CreateNavGraph()
@@ -56,8 +58,8 @@ public class LevelEditor : Editor
 
     void Save()
     {
-        assetPath = string.Format("Assets/Levels/{0}.prefab", level.name);
-        PrefabUtility.CreatePrefab(assetPath, level.gameObject);
+        prefabPath = string.Format("Assets/Levels/{0}.prefab", level.name);
+        PrefabUtility.CreatePrefab(prefabPath, level.gameObject);
     }
 
     void Title(string text)
@@ -96,7 +98,6 @@ public class LevelEditor : Editor
         var dialog = ScriptableObject.CreateInstance<Dialog>();
         AssetDatabase.CreateAsset(dialog, string.Format("Assets/Dialogs/{0} - {1}.asset", prefix, level.name));
         serializedObject.FindProperty(string.Format("{0}Dialog", prefix.ToLower())).objectReferenceValue = dialog;
-        serializedObject.ApplyModifiedProperties();
         Selection.activeObject = dialog;
     }
 
@@ -130,8 +131,6 @@ public class LevelEditor : Editor
         }
         if (GUILayout.Button("Add Wave", noOptions))
             waves.arraySize++;
-
-        serializedObject.ApplyModifiedProperties();
     }
 
     void BossSection()
@@ -165,6 +164,20 @@ public class LevelEditor : Editor
     {
         Save();
         string exportPath = string.Format("{0} - {1}.unitypackage", level.name, DateTime.UtcNow.Ticks);
-        AssetDatabase.ExportPackage(assetPath, exportPath);
+        AssetDatabase.ExportPackage(new []
+            {
+                prefabPath,
+                GetDialogPath("intro"),
+                GetDialogPath("boss"),
+                GetDialogPath("outro")
+            }, exportPath);
+    }
+
+    string GetDialogPath(string type)
+    {
+        var dialog = serializedObject.FindProperty(string.Format("{0}Dialog", type.ToLower()));
+        if (dialog.objectReferenceValue != null)
+            return AssetDatabase.GetAssetPath(dialog.objectReferenceInstanceIDValue);
+        return string.Empty;
     }
 }
