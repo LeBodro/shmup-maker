@@ -18,6 +18,12 @@ public class PlayerController : MonoBehaviour
         spaceship.SetTeam(Team.Friend);
     }
 
+    public void Restore()
+    {
+        //TODO: Make this less hacky, give the player back his ship if it was destroyed.
+        GetComponent<Life>().Heal(999);
+    }
+
     void FixedUpdate()
     {
         spaceship.Engine.MoveTowardRelative(

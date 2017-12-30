@@ -60,6 +60,7 @@ public class GameController : MonoBehaviour
 
     void BeginNextLevel()
     {
+        RestorePlayers();
         levelIntro.PlayThen(() =>
             {
                 BeginLevel(nextLevelIndex);
@@ -79,5 +80,11 @@ public class GameController : MonoBehaviour
         currentLevel.Begin(theatre);
         currentLevel.OnVictory += BeginNextLevel;
         registeringPlayers = false;
+    }
+
+    void RestorePlayers()
+    {
+        foreach (var player in players)
+            player.Value.Restore();
     }
 }
