@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
     [SerializeField] Theatre theatre;
     [SerializeField] Level[] levels;
     [SerializeField] Cinematic levelIntro;
+    [SerializeField] Cinematic levelOutro;
 
     bool registeringPlayers = true;
     IDictionary<int, PlayerController> players = new Dictionary<int, PlayerController>();
@@ -60,6 +61,7 @@ public class GameController : MonoBehaviour
 
     void BeginNextLevel()
     {
+        
         RestorePlayers();
         levelIntro.PlayThen(() =>
             {
@@ -78,8 +80,16 @@ public class GameController : MonoBehaviour
 
         currentLevel = levels[id];
         currentLevel.Begin(theatre);
-        currentLevel.OnVictory += BeginNextLevel;
+        currentLevel.OnVictory += DoLevelTransition;
         registeringPlayers = false;
+    }
+
+    void DoLevelTransition()
+    {
+        levelOutro.PlayThen(delegate
+            {
+                BeginNextLevel();
+            });
     }
 
     void RestorePlayers()

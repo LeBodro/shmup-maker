@@ -24,7 +24,15 @@ public class Cinematic : MonoBehaviour
 
     protected void SetActs(SortedList<float, Action> acts)
     {
-        this.acts = acts;
+        if (this.acts != null)
+            return;
+        this.acts = new SortedList<float, Action>();
+        float cummulatedTime = 0;
+        foreach (var act in acts)
+        {
+            cummulatedTime += act.Key;
+            this.acts.Add(cummulatedTime, act.Value);
+        }
     }
 
     void Update()
