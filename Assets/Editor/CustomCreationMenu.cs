@@ -1,11 +1,18 @@
 ﻿using UnityEngine;
 using UnityEditor;
-using UnityEditor.SceneManagement;
-using UnityEngine.SceneManagement;
 
 public class CustomCreationMenu
 {
-    [MenuItem("Workshop/Create/Spaceship", false, 100)]
+    [MenuItem("Workshop/Create/Level", false, 100)]
+    static void CreateLevel()
+    {
+        GameObject level = new GameObject("Level - New Level", new []{ typeof(Level) });
+        Selection.activeGameObject = level;
+        if (SceneView.lastActiveSceneView != null)
+            SceneView.lastActiveSceneView.FrameSelected();
+    }
+
+    /*[MenuItem("Workshop/Create/Spaceship", false, 100)]
     static void CreateSpaceship()
     {
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Spaceships/BaseSpaceship.prefab");
@@ -16,14 +23,5 @@ public class CustomCreationMenu
         Selection.activeGameObject = copy;
         if (SceneView.lastActiveSceneView != null)
             SceneView.lastActiveSceneView.FrameSelected();
-    }
-
-    [MenuItem("Workshop/Create/NavGraph", false, 101)]
-    static void CreaseNavCourse()
-    {
-        GameObject graph = new GameObject("NavGraphStart", new []{ typeof(NavNode) });
-        Selection.activeGameObject = graph;
-        if (SceneView.lastActiveSceneView != null)
-            SceneView.lastActiveSceneView.FrameSelected();
-    }
+    }*/
 }
