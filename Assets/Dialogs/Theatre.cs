@@ -15,6 +15,12 @@ public class Theatre : MonoBehaviour
 
     public void Play(Dialog dialog, System.Action onDone)
     {
+        if (dialog == null)
+        {
+            onDone();
+            return;
+        }
+
         this.onDone = onDone;
         scene.SetActive(true);
         currentDialog = dialog;

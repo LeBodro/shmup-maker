@@ -7,6 +7,7 @@ public class CustomCreationMenu
     static void CreateLevel()
     {
         GameObject level = new GameObject("Level - New Level", new []{ typeof(Level) });
+        level.layer = LayerMask.NameToLayer("LevelEdition");
         Selection.activeGameObject = level;
         if (SceneView.lastActiveSceneView != null)
             SceneView.lastActiveSceneView.FrameSelected();
