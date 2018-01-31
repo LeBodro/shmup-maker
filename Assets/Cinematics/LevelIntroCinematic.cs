@@ -14,7 +14,7 @@ public class LevelIntroCinematic : Cinematic
                 { 0f, () => lightSpeed.Play() },
                 { 0.33f, () => FadeIn(0.67f) },
                 { 1.67f, () => Debug.Log("enter") },
-                { 2f, () => lightSpeed.Stop() },
+                { 1.33f, () => lightSpeed.Stop() },
                 { 0.67f, () => Debug.Log("start level") }
             }
         );
@@ -22,7 +22,6 @@ public class LevelIntroCinematic : Cinematic
 
     void FadeIn(float duration)
     {
-        Color transparent = new Color(1, 1, 1, 0);
-        whiteOverlay.CrossFadeColor(transparent, duration, false, true);
+        whiteOverlay.CrossFadeAlpha(0, duration, true);
     }
 }

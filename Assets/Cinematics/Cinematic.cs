@@ -17,6 +17,8 @@ public class Cinematic : MonoBehaviour
 
     public void PlayThen(Action onDone)
     {
+        if (isPlaying)
+            return;
         this.onDone = onDone;
         isPlaying = true;
         nextActMoment = acts.Keys[0];

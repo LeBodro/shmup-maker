@@ -9,6 +9,8 @@ public class LevelOutroCinematic : Cinematic
 
     void Awake()
     {
+        whiteOverlay.gameObject.SetActive(true);
+        whiteOverlay.CrossFadeAlpha(0, 0, true);
         SetActs(new SortedList<float, System.Action>
             {
                 { 0f, () => lightSpeed.Play() },
@@ -22,7 +24,6 @@ public class LevelOutroCinematic : Cinematic
 
     void FadeOut(float duration)
     {
-        Color opaque = new Color(1, 1, 1, 1);
-        whiteOverlay.CrossFadeColor(opaque, duration, false, true);
+        whiteOverlay.CrossFadeAlpha(1, duration, true);
     }
 }

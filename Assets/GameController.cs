@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     IDictionary<int, PlayerController> players = new Dictionary<int, PlayerController>();
     Level currentLevel;
     int nextLevelIndex;
+    bool canTransition = true;
 
     void Update()
     {
@@ -37,8 +38,8 @@ public class GameController : MonoBehaviour
             }
         }
 
-        if (players.Count > 0 && Input.GetButtonDown("Next"))
-            BeginNextLevel();
+        if (canTransition && players.Count > 0 && Input.GetButtonDown("Next"))
+            DoLevelTransition();
     }
 
     void SwitchShipForPlayer(int id)
@@ -59,6 +60,15 @@ public class GameController : MonoBehaviour
         hud.RegisterPlayer(controller);
     }
 
+    void DoLevelTransition()
+    {
+        canTransition = false;
+        levelOutro.PlayThen(delegate
+            {
+                BeginNextLevel();
+            });
+    }
+
     void BeginNextLevel()
     {
         
@@ -67,7 +77,14 @@ public class GameController : MonoBehaviour
             {
                 BeginLevel(nextLevelIndex);
                 nextLevelIndex++;
+                canTransition = true;
             });
+    }
+
+    void RestorePlayers()
+    {
+        foreach (var player in players)
+            player.Value.Restore();
     }
 
     void BeginLevel(int id)
@@ -77,24 +94,10 @@ public class GameController : MonoBehaviour
             Debug.LogError("NO LEVEL FOUND!");
             return;
         }
-
+        
         currentLevel = levels[id];
         currentLevel.Begin(theatre);
         currentLevel.OnVictory += DoLevelTransition;
         registeringPlayers = false;
-    }
-
-    void DoLevelTransition()
-    {
-        levelOutro.PlayThen(delegate
-            {
-                BeginNextLevel();
-            });
-    }
-
-    void RestorePlayers()
-    {
-        foreach (var player in players)
-            player.Value.Restore();
     }
 }
