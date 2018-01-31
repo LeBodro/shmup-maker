@@ -13,7 +13,7 @@ public class CustomCreationMenu
             SceneView.lastActiveSceneView.FrameSelected();
     }
 
-    /*[MenuItem("Workshop/Create/Spaceship", false, 100)]
+    [MenuItem("Workshop/Create/Spaceship", false, 100)]
     static void CreateSpaceship()
     {
         var prefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Spaceships/BaseSpaceship.prefab");
@@ -24,5 +24,5 @@ public class CustomCreationMenu
         Selection.activeGameObject = copy;
         if (SceneView.lastActiveSceneView != null)
             SceneView.lastActiveSceneView.FrameSelected();
-    }*/
+    }
 }
