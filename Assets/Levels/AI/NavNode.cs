@@ -43,6 +43,7 @@ public class NavNode : MonoBehaviour
         node.SetNext(next);
         next = node;
         node.transform.position = transform.position + Vector3.right * 6;
+        node.transform.SetParent(transform.parent);
         return node;
     }
 
