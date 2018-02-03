@@ -94,10 +94,19 @@ public class GameController : MonoBehaviour
             Debug.LogError("NO LEVEL FOUND!");
             return;
         }
-        
+
         currentLevel = levels[id];
         currentLevel.Begin(theatre);
         currentLevel.OnVictory += DoLevelTransition;
         registeringPlayers = false;
     }
+
+    #if UNITY_EDITOR
+    public void UpLevel(int index)
+    {
+        var temp = levels[index - 1];
+        levels[index - 1] = levels[index];
+        levels[index] = temp;
+    }
+    #endif
 }
