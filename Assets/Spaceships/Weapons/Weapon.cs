@@ -14,9 +14,16 @@ public class Weapon : MonoBehaviour
     [SerializeField] Ammo ammoPrefab;
     [SerializeField] [Range(0.1f, 5)] float shotsPerSecond = 1;
     [SerializeField] [Range(0.2f, 1)] float powerDamping = 1;
+    [SerializeField] StatDictionnary stats;
 
     float cooldown;
+    Stat fireRate;
+    Stat firePower;
     int power;
+
+    float Cooldown { get { return fireRate != null ? 1 / Mathf.Max(fireRate.ProcessedValue, 0.1f) : cooldown; } }
+
+    float Power { get { return firePower != null ? firePower.ProcessedValue : power; } }
 
     Team owner;
     float secondsToNextShot;
@@ -26,6 +33,12 @@ public class Weapon : MonoBehaviour
         SetOwner((Team)gameObject.layer);
         cooldown = 1 / Mathf.Max(shotsPerSecond, 0.1f);
         power = (int)Mathf.Max(DAMAGE_PER_SECOND * cooldown * powerDamping, 1);
+
+        if (stats != null)
+        {
+            fireRate = stats["FireRate"];
+            firePower = stats["FirePower"];
+        }
     }
 
     public void Fire()
@@ -34,7 +47,7 @@ public class Weapon : MonoBehaviour
         {
             var ammo = Instantiate<Ammo>(ammoPrefab, transform.position, transform.rotation);
             ammo.Setup(owner, power);
-            secondsToNextShot = cooldown;
+            secondsToNextShot = Cooldown;
             CrackleAudio.SoundController.PlaySound("Laser");
         }
     }
@@ -43,6 +56,11 @@ public class Weapon : MonoBehaviour
     {
         this.owner = owner;
         gameObject.layer = (int)owner;
+    }
+
+    public void SetAmmo(Ammo newAmmo)
+    {
+        ammoPrefab = newAmmo;
     }
 
     void Update()

@@ -10,6 +10,11 @@ public class Vehicle : MonoBehaviour
     protected Life hull;
     Rigidbody body;
     float sqrMaximumSpeed;
+    Stat speed;
+
+    float MaxSpeed { get { return speed != null ? speed.ProcessedValue : maximumSpeed; } }
+
+    float SqrMaxSpeed { get { return speed != null ? Mathf.Pow(speed.ProcessedValue, 2) : sqrMaximumSpeed; } }
 
     void Start()
     {
@@ -17,6 +22,12 @@ public class Vehicle : MonoBehaviour
         sqrMaximumSpeed = maximumSpeed * maximumSpeed;
         hull = GetComponent<Life>();
         hull.OnDeath += Die;
+
+        var stats = GetComponent<StatDictionnary>();
+        if (stats != null)
+        {
+            speed = stats["Speed"];
+        }
     }
 
     public void MoveToward(float x, float y)
@@ -38,12 +49,12 @@ public class Vehicle : MonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        if (body.velocity.sqrMagnitude > sqrMaximumSpeed)
-            body.velocity = body.velocity.normalized * maximumSpeed;
+        if (body.velocity.sqrMagnitude > SqrMaxSpeed)
+            body.velocity = body.velocity.normalized * MaxSpeed;
 
         var baseAngle = transform.eulerAngles;
         baseAngle.y = 0;
-        transform.eulerAngles = baseAngle + new Vector3(0, -60f / maximumSpeed, 0) * body.velocity.x;
+        transform.eulerAngles = baseAngle + new Vector3(0, -60f / MaxSpeed, 0) * body.velocity.x;
     }
 
     void Die()

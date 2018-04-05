@@ -2,9 +2,6 @@
 
 public class Collectible : MonoBehaviour
 {
-    [SerializeField] string increasedStat;
-    [SerializeField] float boost = 1f;
-    [SerializeField] float duration = 10f;
     [SerializeField] ParticleSystem collectionFx;
     [SerializeField] ParticleSystem playerFx;
 
@@ -13,15 +10,20 @@ public class Collectible : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             Collect(col.transform);
+            if (collectionFx != null)
+            {
+                Instantiate(collectionFx, transform.position, Quaternion.identity);
+            }
+
+            if (playerFx != null)
+            {
+                Instantiate(playerFx, col.transform, false);
+            }
+            Destroy(gameObject);
         }
     }
 
-    void Collect(Transform collector)
+    protected virtual void Collect(Transform collector)
     {
-        var stat = collector.GetComponent<StatDictionnary>()[increasedStat];
-        stat.AddModifier(boost, duration);
-        Instantiate(collectionFx, transform.position, Quaternion.identity);
-        Instantiate(playerFx, collector, false);
-        Destroy(gameObject);
     }
 }

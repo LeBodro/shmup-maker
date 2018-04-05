@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using System;
 
 public class GameController : MonoBehaviour
 {
@@ -53,6 +52,7 @@ public class GameController : MonoBehaviour
     {
         var ship = ships.GetInstanceForId(id);
         var controller = ship.gameObject.AddComponent<PlayerController>();
+        ship.tag = "Player";
         controller.ControllerId = id;
         players.Add(id, controller);
         CrackleAudio.SoundController.PlaySound("Reactor");
@@ -101,12 +101,12 @@ public class GameController : MonoBehaviour
         registeringPlayers = false;
     }
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     public void UpLevel(int index)
     {
         var temp = levels[index - 1];
         levels[index - 1] = levels[index];
         levels[index] = temp;
     }
-    #endif
+#endif
 }

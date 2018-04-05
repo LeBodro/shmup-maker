@@ -9,6 +9,10 @@ public class Life : MonoBehaviour
 
     float _current;
 
+    Stat health;
+
+    float Maximum { get { return health != null ? health.ProcessedValue : maximum; } }
+
     float Current
     {
         get { return _current; }
@@ -16,7 +20,7 @@ public class Life : MonoBehaviour
         {
             float oldValue = _current;
             _current = value;
-            _onChange(oldValue / maximum, _current / maximum);
+            _onChange(oldValue / Maximum, _current / Maximum);
         }
     }
 
@@ -38,7 +42,12 @@ public class Life : MonoBehaviour
 
     void Start()
     {
-        Current = maximum;
+        var stats = GetComponent<StatDictionnary>();
+        if (stats != null)
+        {
+            health = stats["Health"];
+        }
+        Current = Maximum;
     }
 
     public void Hurt(float damage)
@@ -50,7 +59,7 @@ public class Life : MonoBehaviour
 
     public void Heal(float restoration)
     {
-        Current = Mathf.Min(Current + restoration, maximum);
+        Current = Mathf.Min(Current + restoration, Maximum);
     }
 
     public void Kill()

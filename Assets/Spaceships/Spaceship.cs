@@ -36,6 +36,16 @@ public class Spaceship : MonoBehaviour
             secondaryWeapon.Fire();
     }
 
+    public void ChangePrimaryAmmo(Ammo newAmmo)
+    {
+        primaryWeapon.SetAmmo(newAmmo);
+    }
+
+    public void ChangeSecondaryAmmo(Ammo newAmmo)
+    {
+        secondaryWeapon.SetAmmo(newAmmo);
+    }
+
     public void Remove()
     {
         GetComponent<Life>().KillSilently();
