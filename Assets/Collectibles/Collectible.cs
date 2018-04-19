@@ -10,21 +10,24 @@ public class Collectible : MonoBehaviour
         if (col.CompareTag("Player"))
         {
             CrackleAudio.SoundController.PlaySound("Collect");
-            Collect(col.transform);
-            if (collectionFx != null)
+            if (Collect(col.transform))
             {
-                Instantiate(collectionFx, transform.position, Quaternion.identity);
+                if (collectionFx != null)
+                {
+                    Instantiate(collectionFx, transform.position, Quaternion.identity);
+                }
+                
+                if (playerFx != null)
+                {
+                    Instantiate(playerFx, col.transform, false);
+                }
+                Destroy(gameObject);
             }
-
-            if (playerFx != null)
-            {
-                Instantiate(playerFx, col.transform, false);
-            }
-            Destroy(gameObject);
         }
     }
 
-    protected virtual void Collect(Transform collector)
+    protected virtual bool Collect(Transform collector)
     {
+        return true;
     }
 }

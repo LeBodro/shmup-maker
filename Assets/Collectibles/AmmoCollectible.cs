@@ -11,7 +11,7 @@ public class AmmoCollectible : Collectible
     [SerializeField] Ammo newAmmoType;
     [SerializeField] Weapon targetWeapon;
 
-    protected override void Collect(Transform collector)
+    protected override bool Collect(Transform collector)
     {
         switch (targetWeapon)
         {
@@ -22,5 +22,6 @@ public class AmmoCollectible : Collectible
                 collector.GetComponent<Spaceship>().ChangeSecondaryAmmo(newAmmoType);
                 break;
         }
+        return true;
     }
 }

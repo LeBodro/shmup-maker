@@ -6,9 +6,10 @@ public class StatBoostCollectible : Collectible
     [SerializeField] float boost = 1f;
     [SerializeField] float duration = 10f;
 
-    protected override void Collect(Transform collector)
+    protected override bool Collect(Transform collector)
     {
         var stat = collector.GetComponent<StatDictionnary>()[increasedStat];
         stat.AddModifier(boost, duration);
+        return true;
     }
 }
