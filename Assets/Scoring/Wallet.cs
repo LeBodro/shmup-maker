@@ -1,24 +1,65 @@
 ﻿using UnityEngine;
+using System;
+using System.Collections.Generic;
 
-public class Wallet : MonoBehaviour
+[System.Serializable]
+public class Wallet
 {
-    public float Money { get; private set; }
+    [SerializeField] string[] currencies;
 
-    public void Add(float amount)
-    {
-        Money += amount;
+    IDictionary<string, Currency> mappedCurrencies;
+
+    public Currency this [string currencyName]
+    { 
+        get { return mappedCurrencies[currencyName]; } 
     }
 
-    public bool TryToBuy(float amount)
+    void Start()
     {
-        if (amount > Money)
+        mappedCurrencies = new Dictionary<string, Currency>(currencies.Length);
+        foreach (var currencyName in currencies)
         {
-            return false;
+            mappedCurrencies.Add(currencyName, new Currency());
+        }
+    }
+}
+
+public class Currency
+{
+    public int Amount { get; private set; }
+
+    public void Increase(int amount)
+    {
+        Amount += amount;
+        Amount = Mathf.Max(0, Amount);
+    }
+
+    public void Decrease(int amount)
+    {
+        Amount -= amount;
+        Amount = Mathf.Max(0, Amount);
+    }
+
+    public bool TryTrade(int amount, Action onSuccess = null, Action onFailure = null)
+    {
+        bool canTrade = amount <= Amount;
+
+        if (canTrade)
+        {
+            Amount -= amount;
+            TryInvoke(onSuccess);
         }
         else
         {
-            Money -= amount;
-            return true;
+            TryInvoke(onFailure);
         }
+
+        return canTrade;
+    }
+
+    void TryInvoke(Action callback)
+    {
+        if (callback != null)
+            callback();
     }
 }
