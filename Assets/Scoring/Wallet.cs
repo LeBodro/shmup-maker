@@ -10,10 +10,21 @@ public class Wallet : MonoBehaviour
 
     public Currency this [string currencyName]
     { 
-        get { return mappedCurrencies[currencyName]; } 
+        get
+        { 
+            if (mappedCurrencies == null)
+                Initialize();
+            return mappedCurrencies[currencyName];
+        } 
     }
 
-    void Start()
+    void Awake()
+    {
+        if (mappedCurrencies == null)
+            Initialize();
+    }
+
+    void Initialize()
     {
         mappedCurrencies = new Dictionary<string, Currency>(currencies.Length);
         foreach (var currencyName in currencies)
@@ -25,18 +36,36 @@ public class Wallet : MonoBehaviour
 
 public class Currency
 {
-    public int Amount { get; private set; }
+    int _amount;
+
+    public int Amount
+    {
+        get { return _amount; }
+        private set
+        {
+            value = Mathf.Max(0, value);
+            if (_amount != value)
+                _onChange(_amount, value);
+            _amount = value;
+        }
+    }
+
+    event Action<int, int> _onChange = delegate {};
+
+    public event Action<int, int> OnChange
+    {
+        add { _onChange += value; }
+        remove { _onChange -= value; }
+    }
 
     public void Increase(int amount)
     {
         Amount += amount;
-        Amount = Mathf.Max(0, Amount);
     }
 
     public void Decrease(int amount)
     {
         Amount -= amount;
-        Amount = Mathf.Max(0, Amount);
     }
 
     public bool TryTrade(int amount, Action onSuccess = null, Action onFailure = null)

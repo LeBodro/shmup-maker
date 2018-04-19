@@ -9,6 +9,7 @@ public class Collectible : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
+            CrackleAudio.SoundController.PlaySound("Collect");
             Collect(col.transform);
             if (collectionFx != null)
             {

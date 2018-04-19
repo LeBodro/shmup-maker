@@ -6,6 +6,9 @@ public class LifeBar : MonoBehaviour
     [SerializeField] ProgressBar lifeDisplay;
     [SerializeField] Animator damageIndicator;
     [SerializeField] Text playerId;
+    [SerializeField] Text money;
+
+    public int Money { set { money.text = value.ToString(); } }
 
     public void SetLifeRatio(float ratio)
     {
