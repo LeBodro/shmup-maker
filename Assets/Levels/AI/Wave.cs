@@ -33,7 +33,7 @@ public class Wave
             formations[i].Update();
     }
 
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     public void RemoveFormation(int index)
     {
         var cache = new Formation[formations.Length - 1];
@@ -46,7 +46,7 @@ public class Wave
         }
         formations = cache;
     }
-    #endif
+#endif
 }
 
 [System.Serializable]
@@ -73,14 +73,20 @@ public class Formation
         secondsToNextSpawn -= Time.deltaTime;
         if (secondsToNextSpawn <= 0)
         {
-            var ship = Object.Instantiate<Spaceship>(shipPrefab, graphStart.Position, Quaternion.Euler(0, 0, 180));
-            ship.SetTeam(team);
-            shipsLeft++;
-            ship.GetComponent<Life>().OnDeath += () => shipsLeft -= 1;
-            var pilot = ship.gameObject.AddComponent<AutoPilot>();
+            var pilot = CreateShip();
             pilot.StartCourseAt(graphStart);
             secondsToNextSpawn = spawnCooldown;
             shipCount--;
         }
+    }
+
+    AutoPilot CreateShip()
+    {
+        var ship = Object.Instantiate<Spaceship>(shipPrefab, graphStart.Position, Quaternion.Euler(0, 0, 180));
+        ship.SetTeam(team);
+        shipsLeft++;
+        ship.GetComponent<Life>().OnDeath += () => shipsLeft -= 1;
+
+        return ship.gameObject.AddComponent<AutoPilot>();
     }
 }
