@@ -2,8 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-[System.Serializable]
-public class Wallet
+public class Wallet : MonoBehaviour
 {
     [SerializeField] string[] currencies;
 
