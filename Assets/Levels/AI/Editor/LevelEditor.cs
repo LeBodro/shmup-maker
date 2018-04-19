@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
-using System.Text;
 using System;
+using System.Diagnostics;
 
 [CustomEditor(typeof(Level))]
 public class LevelEditor : Editor
@@ -156,6 +156,7 @@ public class LevelEditor : Editor
                 GetDialogPath("boss"),
                 GetDialogPath("outro")
             }, exportPath);
+        Process.Start(Application.dataPath + "/..");
     }
 
     string GetDialogPath(string type)
