@@ -55,6 +55,12 @@ public class Stat
         isDirty = true;
     }
 
+    public void PermanentlyIncrease(float increase)
+    {
+        baseValue += increase;
+        isDirty = true;
+    }
+
     public void Update()
     {
         bonuses = UpdateModifierList(bonuses);
