@@ -13,10 +13,10 @@ public class Life : MonoBehaviour
 
     float Maximum { get { return health != null ? health.ProcessedValue : maximum; } }
 
-    float Current
+    public float Current
     {
         get { return _current; }
-        set
+        private set
         {
             float oldValue = _current;
             _current = value;
@@ -52,7 +52,7 @@ public class Life : MonoBehaviour
 
     public void Hurt(float damage)
     {
-        Current -= damage;
+        Current = Mathf.Max(Current - damage, 0);
         if (Current <= 0)
             Kill();
     }
@@ -64,6 +64,7 @@ public class Life : MonoBehaviour
 
     public void Kill()
     {
+        Current = 0;
         if (deathFxPrefab != null)
         {
             Instantiate<ParticleSystem>(deathFxPrefab, transform.position, Quaternion.identity);

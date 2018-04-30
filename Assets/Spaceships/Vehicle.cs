@@ -57,6 +57,18 @@ public class Vehicle : MonoBehaviour
         transform.eulerAngles = baseAngle + new Vector3(0, -60f / MaxSpeed, 0) * body.velocity.x;
     }
 
+    protected virtual void OnCollisionEnter(Collision coll)
+    {
+        Life otherLife = coll.gameObject.GetComponent<Life>();
+
+        if (otherLife != null && otherLife.Current >= hull.Current)
+        {
+            Debug.Log(otherLife.name + " received " + hull.Current + " damage. " + name + " exploded.");
+            otherLife.Hurt(hull.Current);
+            hull.Kill();
+        }
+    }
+
     void Die()
     {
         gameObject.SetActive(false);

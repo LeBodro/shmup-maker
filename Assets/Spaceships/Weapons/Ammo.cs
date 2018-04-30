@@ -12,7 +12,7 @@ public class Ammo : Vehicle
         damage = power;
     }
 
-    void OnCollisionEnter(Collision coll)
+    protected override void OnCollisionEnter(Collision coll)
     {
         Life otherLife = coll.gameObject.GetComponent<Life>();
 
