@@ -51,8 +51,15 @@ public class Vehicle : MonoBehaviour
         body.AddForce(direction * thrusterStrength);
     }
 
+    void HackZPosition()
+    {
+        if (Mathf.Abs(transform.position.z) > 0.01f)
+            transform.position = Vector3.ProjectOnPlane(transform.position, Vector3.forward);
+    }
+
     protected virtual void FixedUpdate()
     {
+        HackZPosition();
         if (body.velocity.sqrMagnitude > SqrMaxSpeed)
             body.velocity = body.velocity.normalized * MaxSpeed;
 

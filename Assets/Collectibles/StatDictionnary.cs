@@ -7,7 +7,7 @@ public class StatDictionnary : MonoBehaviour
 
     IDictionary<string, Stat> statDict;
 
-    public Stat this [string statName] { get { return statDict[statName]; } }
+    public Stat this [string statName] { get { return statDict.ContainsKey(statName) ? statDict[statName] : null; } }
 
     void Awake()
     {
