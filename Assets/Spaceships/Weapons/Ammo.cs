@@ -18,7 +18,7 @@ public class Ammo : Vehicle
 
         if (otherLife != null)
         {
-            otherLife.Hurt(damage);
+            ApplyImpactDamageOn(otherLife);
             hull.Kill();
         }
     }

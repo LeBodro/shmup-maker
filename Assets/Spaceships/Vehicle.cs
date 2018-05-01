@@ -10,11 +10,14 @@ public class Vehicle : MonoBehaviour
     protected Life hull;
     Rigidbody body;
     float sqrMaximumSpeed;
-    Stat speed;
+    Stat _speed;
+    Stat _impactDamage;
 
-    float MaxSpeed { get { return speed != null ? speed.ProcessedValue : maximumSpeed; } }
+    float MaxSpeed { get { return _speed != null ? _speed.ProcessedValue : maximumSpeed; } }
 
-    float SqrMaxSpeed { get { return speed != null ? Mathf.Pow(speed.ProcessedValue, 2) : sqrMaximumSpeed; } }
+    float ImpactDamage { get { return _impactDamage != null ? _impactDamage.ProcessedValue : hull.Current * 0.5f; } }
+
+    float SqrMaxSpeed { get { return _speed != null ? Mathf.Pow(_speed.ProcessedValue, 2) : sqrMaximumSpeed; } }
 
     void Start()
     {
@@ -26,7 +29,8 @@ public class Vehicle : MonoBehaviour
         var stats = GetComponent<StatDictionnary>();
         if (stats != null)
         {
-            speed = stats["Speed"];
+            _speed = stats["Speed"];
+            _impactDamage = stats["ImpactDamage"];
         }
     }
 
@@ -61,12 +65,15 @@ public class Vehicle : MonoBehaviour
     {
         Life otherLife = coll.gameObject.GetComponent<Life>();
 
-        if (otherLife != null && otherLife.Current >= hull.Current)
+        if (otherLife != null)
         {
-            Debug.Log(otherLife.name + " received " + hull.Current + " damage. " + name + " exploded.");
-            otherLife.Hurt(hull.Current);
-            hull.Kill();
+            ApplyImpactDamageOn(otherLife);
         }
+    }
+
+    protected void ApplyImpactDamageOn(Life other)
+    {
+        other.Hurt(ImpactDamage);
     }
 
     void Die()
